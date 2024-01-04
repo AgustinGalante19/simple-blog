@@ -59,7 +59,6 @@ export const authOptions: AuthOptions = {
           session.user.username = currentUser.username;
         }
       }
-      console.log('session data: ', session);
       return session;
     },
   },

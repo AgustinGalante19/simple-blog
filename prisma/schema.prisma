@@ -11,18 +11,31 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  lastname String
-  username String @unique
-  password String
-  posts    Post[]
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  lastname  String
+  username  String      @unique
+  password  String
+  posts     Post[]
+  SavedPost SavedPost[]
 }
 
 model Post {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  title   String
-  content String
-  User    User   @relation(fields: [userId], references: [id])
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String      @db.ObjectId
+  title     String
+  content   String
+  User      User        @relation(fields: [userId], references: [id])
+  tags      String[]
+  createdAt DateTime    @default(now())
+  SavedPost SavedPost[]
+}
+
+model SavedPost {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
 }
