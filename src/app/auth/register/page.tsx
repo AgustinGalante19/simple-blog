@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,34 +8,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import fullUserSchema from '@/lib/validations/fullUserSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import fullUserSchema from "@/lib/validations/fullUserSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  IconEye,
-  IconEyeOff,
-  IconLoader,
-  IconLoader2,
-} from '@tabler/icons-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import z from 'zod';
-import useCases from '@/api/useCases';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import useCases from "@/api/useCases";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 function Register() {
   const form = useForm<z.infer<typeof fullUserSchema>>({
     resolver: zodResolver(fullUserSchema),
     defaultValues: {
-      lastname: '',
-      name: '',
-      username: '',
-      password: '',
-      repeatPassword: '',
+      lastname: "",
+      name: "",
+      username: "",
+      password: "",
+      repeatPassword: "",
     },
   });
 
@@ -53,18 +52,18 @@ function Register() {
       .signUp(values)
       .then((response) => {
         if (response.status === 200) {
-          signIn('credentials', {
+          signIn("credentials", {
             ...values,
             redirect: false,
           }).then((res) => {
             if (res?.ok) {
-              push('/');
+              push("/");
             }
           });
         }
       })
       .catch((err) => {
-        console.log('Error on login', err);
+        console.log("Error on login", err);
       })
       .finally(() => setIsWorking(false));
   };
@@ -134,7 +133,7 @@ function Register() {
                       <div className='flex'>
                         <Input
                           placeholder='MyPassword#44'
-                          type={showPassword.psw ? 'text' : 'password'}
+                          type={showPassword.psw ? "text" : "password"}
                           {...field}
                         />
                         <Button
@@ -149,9 +148,9 @@ function Register() {
                           }
                         >
                           {showPassword.psw ? (
-                            <IconEyeOff size={22} />
+                            <EyeInvisibleOutlined size={22} />
                           ) : (
-                            <IconEye size={22} />
+                            <EyeOutlined size={22} />
                           )}
                         </Button>
                       </div>
@@ -170,7 +169,7 @@ function Register() {
                       <div className='flex'>
                         <Input
                           placeholder='MyPassword#44'
-                          type={showPassword.rptPsw ? 'text' : 'password'}
+                          type={showPassword.rptPsw ? "text" : "password"}
                           {...field}
                         />
                         <Button
@@ -185,9 +184,9 @@ function Register() {
                           }
                         >
                           {showPassword.rptPsw ? (
-                            <IconEyeOff size={22} />
+                            <EyeInvisibleOutlined size={22} />
                           ) : (
-                            <IconEye size={22} />
+                            <EyeOutlined size={22} />
                           )}
                         </Button>
                       </div>
@@ -198,7 +197,7 @@ function Register() {
               />
               <div className='my-2'>
                 <p className='text-sm text-gray-400'>
-                  Do not have an accout?{' '}
+                  Do not have an accout?{" "}
                   <Link
                     href='/auth/login'
                     className='text-blue-500 font-semibold hover:text-blue-400 underline'
@@ -213,10 +212,10 @@ function Register() {
                 disabled={isWorking}
               >
                 <span>SignUp</span>
-                <IconLoader2
+                <LoadingOutlined
                   className={cn(
-                    'animate-spin ml-2',
-                    isWorking ? 'block' : 'hidden'
+                    "animate-spin ml-2",
+                    isWorking ? "block" : "hidden"
                   )}
                   size={18}
                 />

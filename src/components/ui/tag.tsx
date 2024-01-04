@@ -1,5 +1,4 @@
-import { TAGS } from "@/lib/TAGS";
-import { IconX } from "@tabler/icons-react";
+import { CloseOutlined } from "@ant-design/icons";
 import React from "react";
 
 interface Props {
@@ -8,20 +7,27 @@ interface Props {
   label: string;
 }
 
+const COLORS: any = {
+  javascript: { displayName: "JavaScript", color: "#f0932b" },
+  typescript: { displayName: "TypeScript", color: "#3498db" },
+  nodejs: { displayName: "Node.js", color: "#27ae60" },
+  csharp: { displayName: "C#", color: "#27ae60" },
+};
+
 function Tag({ handleClickRemove, haveRemove, label }: Props) {
   return (
     <div className='flex items-center border text-sm gap-2 px-4 py-1 rounded-full'>
       <span
         style={{
-          color: TAGS.find((e) => e.key === label)?.color ?? "#000",
+          color: COLORS[label].color,
           fontWeight: "700",
         }}
       >
-        {TAGS.find((e) => e.key === label)?.displayTitle}
+        {COLORS[label].displayName}
       </span>
       {haveRemove && (
         <button onClick={handleClickRemove} type='button'>
-          <IconX size={16} color='#9e9e9e' />
+          <CloseOutlined size={16} color='#9e9e9e' />
         </button>
       )}
     </div>
