@@ -2,8 +2,15 @@
 
 import useCases from "@/api/useCases";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -14,17 +21,13 @@ import {
 import Tag from "@/components/ui/tag";
 import { Textarea } from "@/components/ui/textarea";
 import { TAGS } from "@/lib/TAGS";
+import newPostSchema from "@/lib/validations/newPostSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-interface CustomElements extends HTMLFormControlsCollection {
-  title: HTMLInputElement;
-  content: HTMLTextAreaElement;
-}
-
-interface CustomForm extends HTMLFormElement {
-  readonly elements: CustomElements;
-}
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const findInTheList = (key: string, array: string[]) => {
   const result = array.find((e) => e === key);
@@ -39,15 +42,19 @@ function CreatePost() {
 
   const { push } = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<CustomForm>) => {
-    e.preventDefault();
-    const target = e.currentTarget.elements;
+  const form = useForm<z.infer<typeof newPostSchema>>({
+    resolver: zodResolver(newPostSchema),
+    defaultValues: {
+      content: "",
+      title: "",
+    },
+  });
 
-    const { title, content } = target;
+  const handleSubmitNewPost = (values: z.infer<typeof newPostSchema>) => {
     if (session.data) {
       useCases.posts
         .create(
-          { title: title.value, content: content.value, tags },
+          { title: values.title, content: values.content, tags },
           {
             fullName: session.data.user?.name,
             id: session.data.user?.id,
@@ -65,62 +72,91 @@ function CreatePost() {
 
   return (
     <div className='container mx-auto max-w-4xl bg-white p-8 mt-4 rounded-sm'>
-      <form onSubmit={handleSubmit}>
-        <h2 className='text-2xl font-semibold'>Create Post</h2>
-        <div className='my-3 space-y-4'>
-          <div>
-            <Label htmlFor='title'>Title</Label>
-            <Input id='title' placeholder='Lorem Ipsun' />
-          </div>
-          <div>
-            <Label htmlFor='content'>Content</Label>
-            <Textarea
-              id='content'
-              placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
-            />
-          </div>
-        </div>
-        <div className='my-2'>
-          <span className='font-semibold text-sm'>Tags</span>
-          <Select
-            onValueChange={(value) => {
-              setTags([...tags, value]);
-            }}
-          >
-            <SelectTrigger className='w-[180px]'>
-              <SelectValue placeholder='Select Tags' />
-            </SelectTrigger>
-            <SelectContent>
-              {TAGS.map((t) => (
-                <SelectItem
-                  value={t.key}
-                  key={t.key}
-                  disabled={findInTheList(t.key, tags)}
-                >
-                  {t.displayTitle}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div className='py-2 flex flex-wrap gap-2'>
-            {tags.map((t) => (
-              <Tag
-                key={t}
-                label={t}
-                handleClickRemove={() =>
-                  setTags((prevState) => {
-                    return prevState.filter((e) => e !== t);
-                  })
-                }
-                haveRemove
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
+          <h2 className='text-2xl font-semibold'>Create Post</h2>
+          <div className='my-3 space-y-4'>
+            <div>
+              <FormField
+                control={form.control}
+                name='title'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Lorem Ipsun'
+                        className='w-64'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            ))}
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name='content'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Content</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        id='content'
+                        placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-        </div>
-        <Button className='rounded-full px-8 font-semibold' type='submit'>
-          Post
-        </Button>
-      </form>
+          <div className='my-2'>
+            <span className='font-semibold text-sm'>Tags (optional)</span>
+            <Select
+              onValueChange={(value) => {
+                setTags([...tags, value]);
+              }}
+            >
+              <SelectTrigger className='w-[180px]'>
+                <SelectValue placeholder='Select Tags' />
+              </SelectTrigger>
+              <SelectContent>
+                {TAGS.map((t) => (
+                  <SelectItem
+                    value={t.key}
+                    key={t.key}
+                    disabled={findInTheList(t.key, tags)}
+                  >
+                    {t.displayTitle}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className='py-2 flex flex-wrap gap-2'>
+              {tags.map((t) => (
+                <Tag
+                  key={t}
+                  label={t}
+                  handleClickRemove={() =>
+                    setTags((prevState) => {
+                      return prevState.filter((e) => e !== t);
+                    })
+                  }
+                  haveRemove
+                />
+              ))}
+            </div>
+          </div>
+          <Button className='rounded-full px-8 font-semibold' type='submit'>
+            Post
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }
