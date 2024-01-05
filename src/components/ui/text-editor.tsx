@@ -2,12 +2,7 @@
 
 import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import {
-  Bold,
-  Strikethrough,
-  Italic,
-  Heading2,
-} from "lucide-react";
+import { Bold, Strikethrough, Italic, Heading2 } from "lucide-react";
 import { Toggle } from "./toggle";
 import Heading from "@tiptap/extension-heading";
 
@@ -80,7 +75,6 @@ function TextEditor({
     },
     onUpdate({ editor }) {
       onChange(editor.getHTML());
-      console.log(editor.getHTML());
     },
   });
 

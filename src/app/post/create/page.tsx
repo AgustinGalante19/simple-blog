@@ -98,23 +98,6 @@ function CreatePost() {
                 />
               </div>
               <div>
-                {/* <FormField
-                  control={form.control}
-                  name='content'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Content</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          id='content'
-                          placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
                 <FormField
                   control={form.control}
                   name='content'
