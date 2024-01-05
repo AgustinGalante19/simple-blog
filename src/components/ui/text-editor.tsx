@@ -58,7 +58,7 @@ function TextEditor({
 }) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({}),
+      StarterKit,
       Heading.configure({
         HTMLAttributes: {
           class: "text-xl font-bold",
@@ -81,7 +81,14 @@ function TextEditor({
   return (
     <div className='flex flex-col justify-stretch min-h-[250px]'>
       <Toolbar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent
+        editor={editor}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            editor?.chain().setHardBreak().run();
+          }
+        }}
+      />
     </div>
   );
 }
