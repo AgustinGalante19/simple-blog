@@ -39,7 +39,7 @@ const findInTheList = (key: string, array: string[]) => {
 
 function CreatePost() {
   const [tags, setTags] = useState<string[]>([]);
-  const [isWorking, setIsWorking] = useState(true);
+  const [isWorking, setIsWorking] = useState(false);
   const session = useSession();
 
   const { push } = useRouter();
@@ -157,11 +157,12 @@ function CreatePost() {
               </div>
             </div>
             <Button
+              disabled={isWorking}
               className='rounded-full px-8 font-semibold flex items-center justify-center gap-2'
               type='submit'
             >
               <span>Post</span>
-              <LoadingOutlined />
+              {isWorking && <LoadingOutlined />}
             </Button>
           </form>
         </Form>
