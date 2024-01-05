@@ -1,6 +1,15 @@
 import { z } from "zod";
 import api from ".";
 import fullUserSchema from "../lib/validations/fullUserSchema";
+import { Post } from "@prisma/client";
+
+export interface PostIdResponse extends Post {
+  User: {
+    username: string;
+    name: string;
+    lastname: string;
+  };
+}
 
 const useCases = {
   auth: {
@@ -16,6 +25,7 @@ const useCases = {
         username?: string;
       }
     ) => api.post("/post/create", { data, userData }),
+    getOne: (id: string) => api.get<ApiResponse<PostIdResponse>>(`/post/${id}`),
   },
 };
 
