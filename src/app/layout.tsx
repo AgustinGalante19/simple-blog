@@ -23,9 +23,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={nunitoSans.className}>
         <Providers>
-          <div className='flex min-h-screen flex-col'>
-            <div className='flex-1 bg-neutral-100'>
-              <Navigation />
+          <div className='flex min-h-screen flex-col bg-slate-100'>
+            <div className='flex-1'>
+              {/* <Navigation /> */}
               {children}
             </div>
           </div>

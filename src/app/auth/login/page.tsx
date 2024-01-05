@@ -10,13 +10,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import {
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   username: z
@@ -45,15 +50,20 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { push } = useRouter();
 
+  const [isWorking, setIsWorking] = useState(false);
+
   function onSubmitLogin(values: z.infer<typeof formSchema>) {
+    setIsWorking(true);
     signIn("credentials", {
       ...values,
       redirect: false,
-    }).then((res) => {
-      if (res?.ok) {
-        push("/");
-      }
-    });
+    })
+      .then((res) => {
+        if (res?.ok) {
+          push("/");
+        }
+      })
+      .finally(() => setIsWorking(false));
   }
 
   return (
@@ -129,9 +139,17 @@ function Login() {
               </div>
               <Button
                 type='submit'
-                className='mx-auto flex my-4 w-full bg-primary hover:bg-blue-400'
+                className='mx-auto flex items-center my-4 w-full bg-primary hover:bg-blue-400'
+                disabled={isWorking}
               >
-                Login
+                <span>Login</span>
+                <LoadingOutlined
+                  className={cn(
+                    "animate-spin ml-2",
+                    isWorking ? "block" : "hidden"
+                  )}
+                  size={18}
+                />
               </Button>
             </div>
           </form>
