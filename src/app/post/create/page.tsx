@@ -71,92 +71,94 @@ function CreatePost() {
   };
 
   return (
-    <div className='container mx-auto max-w-4xl bg-white p-8 mt-4 rounded-sm'>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
-          <h2 className='text-2xl font-semibold'>Create Post</h2>
-          <div className='my-3 space-y-4'>
-            <div>
-              <FormField
-                control={form.control}
-                name='title'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Lorem Ipsun'
-                        className='w-64'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormField
-                control={form.control}
-                name='content'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Content</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        id='content'
-                        placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className='my-2'>
-            <span className='font-semibold text-sm'>Tags (optional)</span>
-            <Select
-              onValueChange={(value) => {
-                setTags([...tags, value]);
-              }}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Select Tags' />
-              </SelectTrigger>
-              <SelectContent>
-                {TAGS.map((t) => (
-                  <SelectItem
-                    value={t.key}
-                    key={t.key}
-                    disabled={findInTheList(t.key, tags)}
-                  >
-                    {t.displayTitle}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <div className='py-2 flex flex-wrap gap-2'>
-              {tags.map((t) => (
-                <Tag
-                  key={t}
-                  label={t}
-                  handleClickRemove={() =>
-                    setTags((prevState) => {
-                      return prevState.filter((e) => e !== t);
-                    })
-                  }
-                  haveRemove
+    <div className='flex flex-col justify-center items-center w-full min-h-screen border-l border-gray-400/30'>
+      <div className='min-w-[800px] bg-white p-8 mt-4 rounded-sm'>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
+            <h2 className='text-2xl font-semibold'>Create Post</h2>
+            <div className='my-3 space-y-4'>
+              <div>
+                <FormField
+                  control={form.control}
+                  name='title'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='Lorem Ipsun'
+                          className='w-64'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              ))}
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name='content'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Content</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          id='content'
+                          placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-          </div>
-          <Button className='rounded-full px-8 font-semibold' type='submit'>
-            Post
-          </Button>
-        </form>
-      </Form>
+            <div className='my-2'>
+              <span className='font-semibold text-sm'>Tags (optional)</span>
+              <Select
+                onValueChange={(value) => {
+                  setTags([...tags, value]);
+                }}
+              >
+                <SelectTrigger className='w-[180px]'>
+                  <SelectValue placeholder='Select Tags' />
+                </SelectTrigger>
+                <SelectContent>
+                  {TAGS.map((t) => (
+                    <SelectItem
+                      value={t.key}
+                      key={t.key}
+                      disabled={findInTheList(t.key, tags)}
+                    >
+                      {t.displayTitle}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className='py-2 flex flex-wrap gap-2'>
+                {tags.map((t) => (
+                  <Tag
+                    key={t}
+                    label={t}
+                    handleClickRemove={() =>
+                      setTags((prevState) => {
+                        return prevState.filter((e) => e !== t);
+                      })
+                    }
+                    haveRemove
+                  />
+                ))}
+              </div>
+            </div>
+            <Button className='rounded-full px-8 font-semibold' type='submit'>
+              Post
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }
