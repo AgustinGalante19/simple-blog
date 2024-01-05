@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Tag from "@/components/ui/tag";
+import TextEditor from "@/components/ui/text-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { TAGS } from "@/lib/TAGS";
 import newPostSchema from "@/lib/validations/newPostSchema";
@@ -97,7 +98,7 @@ function CreatePost() {
                 />
               </div>
               <div>
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name='content'
                   render={({ field }) => (
@@ -108,6 +109,22 @@ function CreatePost() {
                           id='content'
                           placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
                           {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name='content'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Content</FormLabel>
+                      <FormControl>
+                        <TextEditor
+                          description={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
