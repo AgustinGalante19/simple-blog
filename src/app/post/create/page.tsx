@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Tag from "@/components/ui/tag";
+import TextEditor from "@/components/ui/text-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { TAGS } from "@/lib/TAGS";
 import newPostSchema from "@/lib/validations/newPostSchema";
@@ -104,10 +105,9 @@ function CreatePost() {
                     <FormItem>
                       <FormLabel>Content</FormLabel>
                       <FormControl>
-                        <Textarea
-                          id='content'
-                          placeholder='Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt. '
-                          {...field}
+                        <TextEditor
+                          description={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
