@@ -23,6 +23,7 @@ import TextEditor from "@/components/ui/text-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { TAGS } from "@/lib/TAGS";
 import newPostSchema from "@/lib/validations/newPostSchema";
+import { LoadingOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -38,7 +39,7 @@ const findInTheList = (key: string, array: string[]) => {
 
 function CreatePost() {
   const [tags, setTags] = useState<string[]>([]);
-
+  const [isWorking, setIsWorking] = useState(true);
   const session = useSession();
 
   const { push } = useRouter();
@@ -52,6 +53,7 @@ function CreatePost() {
   });
 
   const handleSubmitNewPost = (values: z.infer<typeof newPostSchema>) => {
+    setIsWorking(true);
     if (session.data) {
       useCases.posts
         .create(
@@ -67,17 +69,18 @@ function CreatePost() {
         })
         .catch((e) => {
           console.log(e.message);
-        });
+        })
+        .finally(() => setIsWorking(false));
     }
   };
 
   return (
-    <div className='flex flex-col justify-center items-center w-full min-h-screen border-l border-gray-400/30'>
+    <div className='flex flex-col pt-16 items-center w-full min-h-screen border-l border-gray-400/30'>
       <div className='min-w-[800px] bg-white p-8 mt-4 rounded-sm'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
-            <h2 className='text-2xl font-semibold'>Create Post</h2>
-            <div className='my-3 space-y-4'>
+            <h2 className='text-2xl font-bold text-primary'>Create Post</h2>
+            <div className='my-3 space-y-2'>
               <div>
                 <FormField
                   control={form.control}
@@ -153,8 +156,12 @@ function CreatePost() {
                 ))}
               </div>
             </div>
-            <Button className='rounded-full px-8 font-semibold' type='submit'>
-              Post
+            <Button
+              className='rounded-full px-8 font-semibold flex items-center justify-center gap-2'
+              type='submit'
+            >
+              <span>Post</span>
+              <LoadingOutlined />
             </Button>
           </form>
         </Form>

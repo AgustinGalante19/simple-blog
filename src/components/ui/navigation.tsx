@@ -33,14 +33,14 @@ function Navigation() {
   return (
     <aside className='max-sm:hidden flex flex-col py-16 mr-4  justify-between w-[250px] px-4'>
       <ul className='space-y-3 flex flex-col'>
-        <h1 className='text-2xl font-bold'>
+        <h1 className='text-2xl font-bold text-center'>
           Simple<span className='text-primary'>Blog</span>
         </h1>
         <li>
           <Link
             href={"/"}
-            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full flex items-center ${cn(
-              pathname === "/" ? "font-extrabold" : "font-semibold"
+            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full flex items-center justify-center ${cn(
+              pathname === "/" ? "font-extrabold" : "font-bold"
             )}`}
           >
             {pathname === "/" ? <HomeFilled /> : <HomeOutlined />}
@@ -50,12 +50,12 @@ function Navigation() {
         <li>
           <Link
             href={"/"}
-            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full  flex items-center ${cn(
-              pathname === "/saved" ? "font-bold" : "font-semibold"
+            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full  flex items-center justify-center ${cn(
+              pathname === "/saved" ? "font-extrabold" : "font-bold"
             )}`}
           >
             {pathname === "/saved" ? <BookFilled /> : <BookOutlined />}
-            <span className='ml-2'>Saved Post</span>
+            <span className='ml-2'>Saved</span>
           </Link>
         </li>
       </ul>
