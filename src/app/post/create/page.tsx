@@ -76,8 +76,8 @@ function CreatePost() {
   };
 
   return (
-    <div className='flex flex-col pt-16 items-center w-full min-h-screen border-l border-gray-400/30'>
-      <div className='w-[800px] max-lg:w-full bg-white p-8 mt-4 rounded-sm'>
+    <div className='flex flex-col pt-16 max-sm:pt-0 items-center w-full min-h-screen border-l border-gray-400/30'>
+      <div className='w-[800px] max-lg:w-full max-sm:h-full bg-white p-8 rounded-sm flex flex-col max-sm:justify-center'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
             <h2 className='text-2xl font-bold text-primary'>Create Post</h2>
