@@ -21,6 +21,7 @@ function Post() {
       name: "Agustin",
       lastname: "Galante",
     },
+    headerImage: null,
   });
 
   /* useEffect(() => {
@@ -48,24 +49,28 @@ function Post() {
   return (
     post && (
       <article className='container mx-16 max-md:mx-0 max-md:w-full bg-white p-16'>
-        <div className='py-2 flex items-center justify-between mb-4'>
+        <div className="max-w-3xl mx-auto">
           <div>
-            <span className='font-bold text-lg'>
-              {post.User.name} {post.User.lastname}
-            </span>
-            <span className='block text-sm text-gray-400'>
-              @{post.User.username}
-            </span>
           </div>
-          <div className='text-xs text-gray-400'>
-            <span>{post.createdAt.toDateString()}</span>
+          <div className='py-2 flex items-center justify-between mb-4'>
+            <div>
+              <span className='font-bold text-lg'>
+                {post.User.name} {post.User.lastname}
+              </span>
+              <span className='block text-sm text-gray-400'>
+                @{post.User.username}
+              </span>
+            </div>
+            <div className='text-xs text-gray-400'>
+              <span>{post.createdAt.toDateString()}</span>
+            </div>
           </div>
+          <section
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(post.content),
+            }}
+          ></section>
         </div>
-        <section
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(post.content),
-          }}
-        ></section>
       </article>
     )
   );
