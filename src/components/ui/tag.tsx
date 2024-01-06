@@ -1,4 +1,4 @@
-import { CloseOutlined } from "@ant-design/icons";
+import { X } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -17,7 +17,7 @@ const COLORS: any = {
 
 function Tag({ handleClickRemove, haveRemove, label }: Props) {
   return (
-    <div className='flex items-center border text-sm gap-2 px-4 py-1 rounded-md bg-slate-50/90'>
+    <div className='flex h-8 items-center border text-sm gap-2 px-4 rounded-md bg-slate-50/90'>
       <Image
         src={COLORS[label].icon}
         alt={`${COLORS[label].displayName}`}
@@ -34,7 +34,7 @@ function Tag({ handleClickRemove, haveRemove, label }: Props) {
       </span>
       {haveRemove && (
         <button onClick={handleClickRemove} type='button' className='flex'>
-          <CloseOutlined size={16} color='#9e9e9e' />
+          <X size={16} color='#9e9e9e' />
         </button>
       )}
     </div>

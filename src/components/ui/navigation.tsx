@@ -10,16 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import {
-  PlusOutlined,
-  LogoutOutlined,
-  UserOutlined,
-  DownOutlined,
-  MoreOutlined,
-  BookFilled,
-  BookOutlined,
-  HomeOutlined,
-  HomeFilled,
-} from "@ant-design/icons";
+  Plus,
+  LogOut,
+  User,
+  MoreHorizontal,
+  Bookmark,
+  Home,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
@@ -46,7 +43,7 @@ function Navigation() {
               pathname === "/" ? "font-extrabold" : "font-bold"
             )}`}
           >
-            {pathname === "/" ? <HomeFilled /> : <HomeOutlined />}
+            {pathname === "/" ? <Home fill='#000' /> : <Home />}
             <span className='ml-2 max-sm:hidden'>Home</span>
           </Link>
         </li>
@@ -57,7 +54,7 @@ function Navigation() {
               pathname === "/saved" ? "font-extrabold" : "font-bold"
             )}`}
           >
-            {pathname === "/saved" ? <BookFilled /> : <BookOutlined />}
+            {pathname === "/saved" ? <Bookmark fill='#000' /> : <Bookmark />}
             <span className='ml-2 max-sm:hidden'>Saved</span>
           </Link>
         </li>
@@ -68,7 +65,7 @@ function Navigation() {
             <Link href='/post/create'>
               <div className='flex items-center max-sm:items-normal'>
                 <span className='font-semibold max-sm:hidden'>Create Post</span>
-                <PlusOutlined size={18} className='ml-2 max-sm:m-0' />
+                <Plus size={18} className='ml-2 max-sm:m-0' />
               </div>
             </Link>
           </Button>
@@ -77,21 +74,21 @@ function Navigation() {
               <DropdownMenuTrigger className='py-2 rounded-full px-3 max-sm:px-0 hover:border hover:border-white hover:bg-white border border-gray-400/30 transition-all w-full'>
                 <div className='flex items-center justify-between max-sm:justify-center max-sm:block'>
                   <span className='max-sm:hidden'>{data.user?.name}</span>
-                  <MoreOutlined className='rotate-90' />
+                  <MoreHorizontal className='rotate-90' />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='cursor-pointer'>
-                  <UserOutlined size={18} className='mr-2 max-sm:mr-0' />
+                  <User size={18} className='mr-2 max-sm:mr-0' />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => signOut()}
                 >
-                  <LogoutOutlined size={18} className='mr-2 max-sm:mr-0' />
+                  <LogOut size={18} className='mr-2 max-sm:mr-0' />
                   LogOut
                 </DropdownMenuItem>
               </DropdownMenuContent>

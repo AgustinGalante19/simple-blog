@@ -7,7 +7,7 @@ import { Toggle } from "./toggle";
 import Heading from "@tiptap/extension-heading";
 import CodeExt from "@tiptap/extension-code";
 import Underline from "@tiptap/extension-underline";
-import { UnderlineOutlined } from "@ant-design/icons";
+import { Underline as UnderlineIcon } from "lucide-react";
 
 function Toolbar({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
@@ -46,7 +46,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         pressed={editor.isActive("underline")}
         onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
       >
-        <UnderlineOutlined className='h-4 w-4' />
+        <UnderlineIcon className='h-4 w-4' />
       </Toggle>
       <Toggle
         size='sm'

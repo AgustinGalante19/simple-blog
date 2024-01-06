@@ -10,11 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  EyeOutlined,
-  EyeInvisibleOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -115,9 +111,9 @@ function Login() {
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? (
-                            <EyeInvisibleOutlined size={22} />
+                            <EyeOff size={22} />
                           ) : (
-                            <EyeOutlined size={22} />
+                            <Eye size={22} />
                           )}
                         </Button>
                       </div>
@@ -143,7 +139,7 @@ function Login() {
                 disabled={isWorking}
               >
                 <span>Login</span>
-                <LoadingOutlined
+                <Loader2
                   className={cn(
                     "animate-spin ml-2",
                     isWorking ? "block" : "hidden"

@@ -20,11 +20,10 @@ import {
 } from "@/components/ui/select";
 import Tag from "@/components/ui/tag";
 import TextEditor from "@/components/ui/text-editor";
-import { Textarea } from "@/components/ui/textarea";
 import { TAGS } from "@/lib/TAGS";
 import newPostSchema from "@/lib/validations/newPostSchema";
-import { LoadingOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -165,7 +164,7 @@ function CreatePost() {
               type='submit'
             >
               <span>Post</span>
-              {isWorking && <LoadingOutlined />}
+              {isWorking && <Loader2 className='animate-spin' />}
             </Button>
           </form>
         </Form>

@@ -21,14 +21,15 @@ model User {
 }
 
 model Post {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String      @db.ObjectId
-  title     String
-  content   String
-  User      User        @relation(fields: [userId], references: [id])
-  tags      String[]
-  createdAt DateTime    @default(now())
-  SavedPost SavedPost[]
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String      @db.ObjectId
+  title       String
+  content     String
+  User        User        @relation(fields: [userId], references: [id])
+  tags        String[]
+  createdAt   DateTime    @default(now())
+  SavedPost   SavedPost[]
+  headerImage String?
 }
 
 model SavedPost {

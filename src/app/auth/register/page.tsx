@@ -12,11 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import fullUserSchema from "@/lib/validations/fullUserSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  EyeOutlined,
-  EyeInvisibleOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -148,9 +144,9 @@ function Register() {
                           }
                         >
                           {showPassword.psw ? (
-                            <EyeInvisibleOutlined size={22} />
+                            <EyeOff size={22} />
                           ) : (
-                            <EyeOutlined size={22} />
+                            <Eye size={22} />
                           )}
                         </Button>
                       </div>
@@ -184,9 +180,9 @@ function Register() {
                           }
                         >
                           {showPassword.rptPsw ? (
-                            <EyeInvisibleOutlined size={22} />
+                            <EyeOff size={22} />
                           ) : (
-                            <EyeOutlined size={22} />
+                            <Eye size={22} />
                           )}
                         </Button>
                       </div>
@@ -212,7 +208,7 @@ function Register() {
                 disabled={isWorking}
               >
                 <span>SignUp</span>
-                <LoadingOutlined
+                <Loader2
                   className={cn(
                     "animate-spin ml-2",
                     isWorking ? "block" : "hidden"

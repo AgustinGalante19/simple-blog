@@ -2,11 +2,9 @@
 
 import Tag from "@/components/ui/tag";
 import { Post, User } from "@prisma/client";
-import { BookOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import useSWR from "swr";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Bookmark } from "lucide-react";
 import PostLoader from "@/components/ui/post-loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -64,8 +62,11 @@ export default function Home() {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button className='bg-transparent text-black hover:bg-gray-50/10'>
-                            <BookOutlined />
+                          <Button
+                            size='lg'
+                            className='bg-transparent text-black hover:bg-gray-50/10 hover:scale-125 transition-transform'
+                          >
+                            <Bookmark size={24} />
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
