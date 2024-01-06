@@ -31,20 +31,23 @@ function Navigation() {
   const pathname = usePathname();
 
   return (
-    <aside className='max-sm:hidden flex flex-col py-16 mr-4  justify-between w-[250px] px-4'>
+    <aside className='flex flex-col py-16 max-sm:px-0 justify-between'>
       <ul className='space-y-3 flex flex-col'>
-        <h1 className='text-2xl font-bold text-center'>
+        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-md:hidden'>
           Simple<span className='text-primary'>Blog</span>
+        </h1>
+        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-sm:block md:hidden'>
+          S<span className='text-primary'>B</span>
         </h1>
         <li>
           <Link
             href={"/"}
-            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full flex items-center justify-center ${cn(
+            className={`py-2 px-4 max-sm:px-0  text-xl hover:bg-primary/20 transition-colors rounded-full flex items-center justify-center ${cn(
               pathname === "/" ? "font-extrabold" : "font-bold"
             )}`}
           >
             {pathname === "/" ? <HomeFilled /> : <HomeOutlined />}
-            <span className='ml-2'>Home</span>
+            <span className='ml-2 max-sm:hidden'>Home</span>
           </Link>
         </li>
         <li>
@@ -55,7 +58,7 @@ function Navigation() {
             )}`}
           >
             {pathname === "/saved" ? <BookFilled /> : <BookOutlined />}
-            <span className='ml-2'>Saved</span>
+            <span className='ml-2 max-sm:hidden'>Saved</span>
           </Link>
         </li>
       </ul>
@@ -63,17 +66,17 @@ function Navigation() {
         <div className='flex flex-col items-center justify-center gap-2'>
           <Button className='rounded-full w-full' asChild>
             <Link href='/post/create'>
-              <div className='flex items-center'>
-                <span className='font-semibold'>Create Post</span>
-                <PlusOutlined size={18} className='ml-2' />
+              <div className='flex items-center max-sm:items-normal'>
+                <span className='font-semibold max-sm:hidden'>Create Post</span>
+                <PlusOutlined size={18} className='ml-2 max-sm:m-0' />
               </div>
             </Link>
           </Button>
-          <div className='max-sm:hidden w-full'>
+          <div className='w-full'>
             <DropdownMenu>
-              <DropdownMenuTrigger className='p-2 rounded-full px-3 hover:border hover:border-white hover:bg-white border border-gray-400/30 transition-all w-full'>
-                <div className='flex items-center justify-between'>
-                  <span>{data.user?.name}</span>
+              <DropdownMenuTrigger className='py-2 rounded-full px-3 max-sm:px-0 hover:border hover:border-white hover:bg-white border border-gray-400/30 transition-all w-full'>
+                <div className='flex items-center justify-between max-sm:justify-center max-sm:block'>
+                  <span className='max-sm:hidden'>{data.user?.name}</span>
                   <MoreOutlined className='rotate-90' />
                 </div>
               </DropdownMenuTrigger>
@@ -81,14 +84,14 @@ function Navigation() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='cursor-pointer'>
-                  <UserOutlined size={18} className='mr-2' />
+                  <UserOutlined size={18} className='mr-2 max-sm:mr-0' />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => signOut()}
                 >
-                  <LogoutOutlined size={18} className='mr-2' />
+                  <LogoutOutlined size={18} className='mr-2 max-sm:mr-0' />
                   LogOut
                 </DropdownMenuItem>
               </DropdownMenuContent>

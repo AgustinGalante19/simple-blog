@@ -8,6 +8,13 @@ import useSWR from "swr";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import PostLoader from "@/components/ui/post-loader";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface PostWithUser extends Post {
   User: User;
@@ -22,8 +29,8 @@ export default function Home() {
   } = useSWR<ApiResponse<PostWithUser>>("/api/post", fetcher);
 
   return (
-    <div className='container mx-auto'>
-      <section className='w-[700px] max-md:w-full border-x border-gray-400/30 min-h-screen px-2 py-4 '>
+    <div className='mx-auto container max-sm:p-0 max-sm:m-0'>
+      <section className='w-[700px] max-lg:w-full border-x border-gray-400/30 min-h-screen px-2 py-4'>
         {isLoading && !postData
           ? Array.from({ length: 3 }).map((_, i) => <PostLoader key={i} />)
           : postData
@@ -42,7 +49,7 @@ export default function Home() {
                 </div>
                 <Link
                   href={`/post/${post.id}`}
-                  className='font-extrabold text-4xl hover:text-primary/90 transition-colors'
+                  className='font-extrabold text-4xl max-sm:text-xl hover:text-primary/90 transition-colors'
                 >
                   {post.title}
                 </Link>
@@ -54,7 +61,18 @@ export default function Home() {
                     ))}
                   </div>
                   <div>
-                    <BookOutlined />
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button className='bg-transparent text-black hover:bg-gray-50/10'>
+                            <BookOutlined />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Save Post</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               </article>

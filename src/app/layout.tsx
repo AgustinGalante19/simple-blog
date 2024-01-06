@@ -25,7 +25,7 @@ export default function RootLayout({
         <Providers>
           <div className='flex min-h-screen flex-col bg-slate-100'>
             <div className='flex-1'>
-              <div className='flex mx-auto w-full container min-h-screen justify-center'>
+              <div className='flex mx-auto w-full container min-h-screen max-sm:p-0 max-sm:m-0 justify-center'>
                 <Navigation />
                 {children}
               </div>
