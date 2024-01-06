@@ -51,6 +51,7 @@ function CreatePost() {
       title: "",
     },
   });
+  const [comboValue, setComboValue] = useState<string | undefined>();
 
   const handleSubmitNewPost = (values: z.infer<typeof newPostSchema>) => {
     setIsWorking(true);
@@ -76,7 +77,7 @@ function CreatePost() {
 
   return (
     <div className='flex flex-col pt-16 items-center w-full min-h-screen border-l border-gray-400/30'>
-      <div className='min-w-[800px] bg-white p-8 mt-4 rounded-sm'>
+      <div className='w-[800px] max-lg:w-full bg-white p-8 mt-4 rounded-sm'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
             <h2 className='text-2xl font-bold text-primary'>Create Post</h2>
@@ -122,8 +123,10 @@ function CreatePost() {
             <div className='my-2'>
               <span className='font-semibold text-sm'>Tags (optional)</span>
               <Select
+                value={comboValue}
                 onValueChange={(value) => {
                   setTags([...tags, value]);
+                  setComboValue("");
                 }}
               >
                 <SelectTrigger className='w-[180px]'>

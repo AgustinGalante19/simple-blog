@@ -31,7 +31,7 @@ function Navigation() {
   const pathname = usePathname();
 
   return (
-    <aside className='flex flex-col py-16 max-sm:px-0 justify-between'>
+    <aside className='flex flex-col py-16 px-2 justify-between'>
       <ul className='space-y-3 flex flex-col'>
         <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-md:hidden'>
           Simple<span className='text-primary'>Blog</span>
