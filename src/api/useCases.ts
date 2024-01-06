@@ -18,7 +18,12 @@ const useCases = {
   },
   posts: {
     create: (
-      data: { title: string; content: string; tags: string[] },
+      data: {
+        title: string;
+        content: string;
+        tags: string[];
+        headerImage?: string;
+      },
       userData: {
         id?: string;
         fullName?: string;

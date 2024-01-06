@@ -23,8 +23,9 @@ import TextEditor from "@/components/ui/text-editor";
 import { TAGS } from "@/lib/TAGS";
 import newPostSchema from "@/lib/validations/newPostSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -41,6 +42,9 @@ function CreatePost() {
   const [isWorking, setIsWorking] = useState(false);
   const session = useSession();
 
+  const [file, setFile] = useState<File>();
+  const [image, setImage] = useState("/img-placeholder.png");
+
   const { push } = useRouter();
 
   const form = useForm<z.infer<typeof newPostSchema>>({
@@ -52,12 +56,29 @@ function CreatePost() {
   });
   const [comboValue, setComboValue] = useState<string | undefined>();
 
-  const handleSubmitNewPost = (values: z.infer<typeof newPostSchema>) => {
+  const handleSubmitNewPost = async (values: z.infer<typeof newPostSchema>) => {
     setIsWorking(true);
     if (session.data) {
+      let headerImageUrl = "";
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadImage = await fetch("/api/post/create/image", {
+          method: "POST",
+          body: formData,
+        });
+        const response = await uploadImage.json();
+        headerImageUrl = response.data[0];
+      }
+
       useCases.posts
         .create(
-          { title: values.title, content: values.content, tags },
+          {
+            title: values.title,
+            content: values.content,
+            tags,
+            headerImage: headerImageUrl,
+          },
           {
             fullName: session.data.user?.name,
             id: session.data.user?.id,
@@ -79,8 +100,49 @@ function CreatePost() {
       <div className='w-[800px] max-lg:w-full max-sm:h-full bg-white p-8 rounded-sm flex flex-col max-sm:justify-center'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
-            <h2 className='text-2xl font-bold text-primary'>Create Post</h2>
+            <h2 className='text-2xl font-bold  text-primary'>Create Post</h2>
             <div className='my-3 space-y-2'>
+              <span className='text-sm font-medium'>
+                Header image (optional){" "}
+                <span className='text-gray-500'>(recommended 720x150)</span>
+              </span>
+              <input
+                id='fileInput'
+                type='file'
+                className='hidden'
+                onChange={async (e) => {
+                  if (e.target.files) {
+                    const currentFile = e.target.files[0];
+                    setFile(currentFile);
+                    const bytes = await currentFile?.arrayBuffer();
+                    const splittedName = currentFile.name.split(".");
+                    const extension = splittedName.at(splittedName.length - 1);
+                    const buffer = Buffer.from(bytes).toString("base64");
+                    const uri = `data:image/${extension};base64,${buffer}`;
+                    setImage(uri);
+                  }
+                }}
+              />
+              <div className='relative h-[150px] w-[720px]'>
+                <button
+                  className='px-3 py-1 opacity-0 hover:opacity-100 transition-all font-bold text-black text-lg  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] items-center justify-center gap-2 w-full h-full bg-gray-300/50 flex'
+                  type='button'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("fileInput")?.click();
+                  }}
+                >
+                  Upload Image
+                  <Upload className='inline-block' size={20} />
+                </button>
+                <Image
+                  width={720}
+                  height={150}
+                  className='object-cover w-[720px] h-[150px]'
+                  alt='placeholder image'
+                  src={image}
+                />
+              </div>
               <div>
                 <FormField
                   control={form.control}

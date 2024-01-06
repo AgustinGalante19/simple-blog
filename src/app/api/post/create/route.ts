@@ -11,6 +11,7 @@ export async function POST(
       title: body.data.title,
       userId: body.userData.id,
       tags: body.data.tags,
+      headerImage: body.data.headerImage,
     },
   });
   return NextResponse.json({ data: [true], error: [], result: "ok" });
