@@ -104,7 +104,7 @@ function CreatePost() {
             <div className='my-3 space-y-2'>
               <span className='text-sm font-medium'>
                 Header image (optional){" "}
-                <span className='text-gray-500'>(recommended 720x150)</span>
+                <span className='text-gray-500'>(recommended 720x250)</span>
               </span>
               <input
                 id='fileInput'
@@ -137,8 +137,8 @@ function CreatePost() {
                 </button>
                 <Image
                   width={720}
-                  height={150}
-                  className='object-cover w-[720px] h-[150px]'
+                  height={250}
+                  className='object-cover w-[720px] h-[250px]'
                   alt='placeholder image'
                   src={image}
                 />
