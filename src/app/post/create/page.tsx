@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import useCases from "@/api/useCases";
-import { Button } from "@/components/ui/button";
+import useCases from "@/api/useCases"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -9,43 +9,43 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import Tag from "@/components/ui/tag";
-import TextEditor from "@/components/ui/text-editor";
-import { TAGS } from "@/lib/TAGS";
-import newPostSchema from "@/lib/validations/newPostSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Upload } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+} from "@/components/ui/select"
+import Tag from "@/components/ui/tag"
+import TextEditor from "@/components/ui/text-editor"
+import { TAGS } from "@/lib/TAGS"
+import newPostSchema from "@/lib/validations/newPostSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2, Upload } from "lucide-react"
+import { useSession } from "next-auth/react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 const findInTheList = (key: string, array: string[]) => {
-  const result = array.find((e) => e === key);
-  if (result !== undefined) return true;
-  return false;
-};
+  const result = array.find((e) => e === key)
+  if (result !== undefined) return true
+  return false
+}
 
 function CreatePost() {
-  const [tags, setTags] = useState<string[]>([]);
-  const [isWorking, setIsWorking] = useState(false);
-  const session = useSession();
+  const [tags, setTags] = useState<string[]>([])
+  const [isWorking, setIsWorking] = useState(false)
+  const session = useSession()
 
-  const [file, setFile] = useState<File>();
-  const [image, setImage] = useState("/img-placeholder.png");
+  const [file, setFile] = useState<File>()
+  const [image, setImage] = useState("/img-placeholder.png")
 
-  const { push } = useRouter();
+  const { push } = useRouter()
 
   const form = useForm<z.infer<typeof newPostSchema>>({
     resolver: zodResolver(newPostSchema),
@@ -53,22 +53,22 @@ function CreatePost() {
       content: "",
       title: "",
     },
-  });
-  const [comboValue, setComboValue] = useState<string | undefined>();
+  })
+  const [comboValue, setComboValue] = useState<string | undefined>()
 
   const handleSubmitNewPost = async (values: z.infer<typeof newPostSchema>) => {
-    setIsWorking(true);
+    setIsWorking(true)
     if (session.data) {
-      let headerImageUrl = "";
+      let headerImageUrl = ""
       if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
+        const formData = new FormData()
+        formData.append("file", file)
         const uploadImage = await fetch("/api/post/create/image", {
           method: "POST",
           body: formData,
-        });
-        const response = await uploadImage.json();
-        headerImageUrl = response.data[0];
+        })
+        const response = await uploadImage.json()
+        headerImageUrl = response.data[0]
       }
 
       useCases.posts
@@ -86,18 +86,18 @@ function CreatePost() {
           }
         )
         .then(() => {
-          push("/");
+          push("/")
         })
         .catch((e) => {
-          console.log(e.message);
+          console.log(e.message)
         })
-        .finally(() => setIsWorking(false));
+        .finally(() => setIsWorking(false))
     }
-  };
+  }
 
   return (
-    <div className='flex flex-col pt-16 max-sm:pt-0 items-center w-full min-h-screen border-l border-gray-400/30'>
-      <div className='w-[800px] max-lg:w-full max-sm:h-full bg-white p-8 rounded-sm flex flex-col max-sm:justify-center'>
+    <div className='flex flex-col pt-16 max-sm:pt-0 items-center border-l border-gray-400/30 w-[700px] min-h-screen bg-white'>
+      <div className='max-lg:w-full max-sm:h-full p-8 rounded-sm flex flex-col max-sm:justify-center'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
             <h2 className='text-2xl font-bold  text-primary'>Create Post</h2>
@@ -112,33 +112,33 @@ function CreatePost() {
                 className='hidden'
                 onChange={async (e) => {
                   if (e.target.files) {
-                    const currentFile = e.target.files[0];
-                    setFile(currentFile);
-                    const bytes = await currentFile?.arrayBuffer();
-                    const splittedName = currentFile.name.split(".");
-                    const extension = splittedName.at(splittedName.length - 1);
-                    const buffer = Buffer.from(bytes).toString("base64");
-                    const uri = `data:image/${extension};base64,${buffer}`;
-                    setImage(uri);
+                    const currentFile = e.target.files[0]
+                    setFile(currentFile)
+                    const bytes = await currentFile?.arrayBuffer()
+                    const splittedName = currentFile.name.split(".")
+                    const extension = splittedName.at(splittedName.length - 1)
+                    const buffer = Buffer.from(bytes).toString("base64")
+                    const uri = `data:image/${extension};base64,${buffer}`
+                    setImage(uri)
                   }
                 }}
               />
-              <div className='relative h-[150px] w-[720px]'>
+              <div className='relative h-[250px] w-full'>
                 <button
-                  className='px-3 py-1 opacity-0 hover:opacity-100 transition-all font-bold text-black text-lg  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] items-center justify-center gap-2 w-full h-full bg-gray-300/50 flex'
+                  className='px-3 py-1 opacity-0 hover:opacity-100 transition-all font-bold text-black text-lg  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] items-center justify-center gap-2 w-full bg-gray-300/50 flex h-[250px]'
                   type='button'
                   onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById("fileInput")?.click();
+                    e.preventDefault()
+                    document.getElementById("fileInput")?.click()
                   }}
                 >
                   Upload Image
                   <Upload className='inline-block' size={20} />
                 </button>
                 <Image
-                  width={720}
+                  width={700}
                   height={250}
-                  className='object-cover w-[720px] h-[250px]'
+                  className='object-cover w-[700px] h-[250px]'
                   alt='placeholder image'
                   src={image}
                 />
@@ -186,8 +186,8 @@ function CreatePost() {
               <Select
                 value={comboValue}
                 onValueChange={(value) => {
-                  setTags([...tags, value]);
-                  setComboValue("");
+                  setTags([...tags, value])
+                  setComboValue("")
                 }}
               >
                 <SelectTrigger className='w-[180px]'>
@@ -212,7 +212,7 @@ function CreatePost() {
                     label={t}
                     handleClickRemove={() =>
                       setTags((prevState) => {
-                        return prevState.filter((e) => e !== t);
+                        return prevState.filter((e) => e !== t)
                       })
                     }
                     haveRemove
@@ -232,7 +232,7 @@ function CreatePost() {
         </Form>
       </div>
     </div>
-  );
+  )
 }
 
-export default CreatePost;
+export default CreatePost
