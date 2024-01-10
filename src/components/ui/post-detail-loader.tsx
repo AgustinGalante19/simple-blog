@@ -1,12 +1,10 @@
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "./skeleton"
 
 const PostDeailtsLoader = () => {
   return (
-    <article className='container mx-16 max-md:mx-0 max-md:w-full bg-white p-16'>
-      <div className='max-w-3xl mx-auto'>
-        <div className='relative'>
-          <Skeleton className='w-[720px] h-[250px] mx-auto' />
-        </div>
+    <article className='w-[700px] max-md:mx-0 max-md:w-full bg-white p-16'>
+      <div className='mx-auto'>
+        <Skeleton className='h-[250px] mx-auto' />
         <div className='py-2 flex items-center justify-between mb-4'>
           <div>
             <Skeleton className='h-10 w-48' />
@@ -26,7 +24,7 @@ const PostDeailtsLoader = () => {
         <Skeleton className='w-full my-2 h-5' />
       </div>
     </article>
-  );
-};
+  )
+}
 
-export default PostDeailtsLoader;
+export default PostDeailtsLoader

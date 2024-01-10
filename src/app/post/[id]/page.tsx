@@ -37,7 +37,7 @@ function Post() {
   );
 
   return !isLoading && post ? (
-    <article className='container mx-16 max-md:mx-0 max-md:w-full bg-white p-16'>
+    <article className='max-md:mx-0 max-md:w-full w-[700px] bg-white p-16'>
       <div className='max-w-3xl mx-auto'>
         {post.headerImage && post.headerImage !== "" && (
           <div className='relative'>
