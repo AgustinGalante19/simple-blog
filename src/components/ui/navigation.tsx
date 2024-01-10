@@ -1,61 +1,71 @@
-"use client";
+"use client"
 
-import { signOut, useSession } from "next-auth/react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
-import {
-  Plus,
-  LogOut,
-  User,
-  MoreHorizontal,
-  Bookmark,
-  Home,
-} from "lucide-react";
-import Link from "next/link";
-import { Button } from "./button";
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react"
+import { Plus, LogOut, Bookmark, Home, User } from "lucide-react"
+import Link from "next/link"
+import { Button } from "./button"
+import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
+import React from "react"
 
 function Navigation() {
-  const { status, data } = useSession();
+  const { status, data } = useSession()
 
-  const pathname = usePathname();
+  const pathname = usePathname()
+
+  const MENU_ITEMS = [
+    {
+      label: "Home",
+      link: "/",
+      icon: <Home />,
+    },
+    {
+      label: "Saved Posts",
+      link: "/saved",
+      icon: <Bookmark />,
+    },
+  ]
 
   return (
-    <aside className='flex flex-col py-16 px-2 justify-between'>
+    <aside className='h-screen flex flex-col py-16 px-2 justify-between'>
       <ul className='space-y-3 flex flex-col'>
-        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-md:hidden'>
+        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-md:hidden mb-4'>
           Simple<span className='text-primary'>Blog</span>
         </h1>
-        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-sm:block md:hidden'>
+        <h1 className='text-2xl font-bold text-center flex flex-wrap justify-center items-center max-sm:block mb-4 md:hidden'>
           S<span className='text-primary'>B</span>
         </h1>
+        {MENU_ITEMS.map((item, i) => (
+          <li key={i} className='flex'>
+            <Link
+              href={item.link}
+              className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
+                pathname === item.link
+                  ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
+                  : "font-bold"
+              )}`}
+            >
+              {item.icon}
+              <span className='ml-2 max-sm:hidden'>{item.label}</span>
+            </Link>
+          </li>
+        ))}
         <li>
           <Link
-            href={"/"}
-            className={`py-2 px-4 max-sm:px-0  text-xl hover:bg-primary/20 transition-colors rounded-full flex items-center justify-center ${cn(
-              pathname === "/" ? "font-extrabold" : "font-bold"
+            href={`/profile/@${data?.user?.username}`}
+            className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
+              pathname.includes("/profile")
+                ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
+                : "font-bold"
             )}`}
           >
-            {pathname === "/" ? <Home fill='#000' /> : <Home />}
-            <span className='ml-2 max-sm:hidden'>Home</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href={"/"}
-            className={`py-2 px-4  text-xl hover:bg-primary/20 transition-colors rounded-full  flex items-center justify-center ${cn(
-              pathname === "/saved" ? "font-extrabold" : "font-bold"
-            )}`}
-          >
-            {pathname === "/saved" ? <Bookmark fill='#000' /> : <Bookmark />}
-            <span className='ml-2 max-sm:hidden'>Saved</span>
+            <User />
+            <span className='ml-2 max-sm:hidden flex flex-col'>
+              {data?.user?.name}
+              <span className='text-xs text-gray-500'>
+                @{data?.user?.username}
+              </span>
+            </span>
           </Link>
         </li>
       </ul>
@@ -69,30 +79,15 @@ function Navigation() {
               </div>
             </Link>
           </Button>
-          <div className='w-full'>
-            <DropdownMenu>
-              <DropdownMenuTrigger className='py-2 rounded-full px-3 max-sm:px-0 hover:border hover:border-white hover:bg-white border border-gray-400/30 transition-all w-full'>
-                <div className='flex items-center justify-between max-sm:justify-center max-sm:block'>
-                  <span className='max-sm:hidden'>{data.user?.name}</span>
-                  <MoreHorizontal className='rotate-90' />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className='cursor-pointer'>
-                  <User size={18} className='mr-2 max-sm:mr-0' />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className='cursor-pointer'
-                  onClick={() => signOut()}
-                >
-                  <LogOut size={18} className='mr-2 max-sm:mr-0' />
-                  LogOut
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className='w-full flex mt-2'>
+            <Button
+              className='mx-auto rounded-full w-full'
+              variant='destructive'
+              onClick={() => signOut()}
+            >
+              <LogOut />
+              <span className='ml-2 max-sm:hidden'>LogOut</span>
+            </Button>
           </div>
         </div>
       ) : (
@@ -101,6 +96,6 @@ function Navigation() {
         </Button>
       )}
     </aside>
-  );
+  )
 }
-export default Navigation;
+export default Navigation
