@@ -26,6 +26,7 @@ function Navigation() {
     },
   ]
 
+  if (pathname.includes("/auth")) return null
   return (
     <aside className='h-screen flex flex-col py-16 px-2 justify-between'>
       <ul className='space-y-3 flex flex-col'>
@@ -50,24 +51,26 @@ function Navigation() {
             </Link>
           </li>
         ))}
-        <li>
-          <Link
-            href={`/profile/@${data?.user?.username}`}
-            className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
-              pathname.includes("/profile")
-                ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
-                : "font-bold"
-            )}`}
-          >
-            <User />
-            <span className='ml-2 max-sm:hidden flex flex-col'>
-              {data?.user?.name}
-              <span className='text-xs text-gray-500'>
-                @{data?.user?.username}
+        {status === "authenticated" && (
+          <li>
+            <Link
+              href={`/profile/@${data?.user?.username}`}
+              className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
+                pathname.includes("/profile")
+                  ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
+                  : "font-bold"
+              )}`}
+            >
+              <User />
+              <span className='ml-2 max-sm:hidden flex flex-col'>
+                {data?.user?.name}
+                <span className='text-xs text-gray-500'>
+                  @{data?.user?.username}
+                </span>
               </span>
-            </span>
-          </Link>
-        </li>
+            </Link>
+          </li>
+        )}
       </ul>
       {status === "authenticated" ? (
         <div className='flex flex-col items-center justify-center gap-2'>

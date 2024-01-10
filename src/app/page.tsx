@@ -28,7 +28,7 @@ export default function Home() {
   } = useSWR<ApiResponse<PostWithUser>>("/api/post", fetcher)
 
   return (
-    <div className='flex justify-center max-sm:p-0 max-sm:m-0'>
+    <div className='flex max-md:w-full justify-center max-sm:p-0 max-sm:m-0'>
       <ScrollArea className='w-[700px] max-lg:w-full border-x border-gray-400/30 h-screen px-4 py-4'>
         <section>
           {isLoading && !postData ? (
@@ -37,20 +37,20 @@ export default function Home() {
             <div>
               {postData.data.map((post) => (
                 <article
-                  className='p-4 my-3 border border-gray/30 rounded-md bg-white'
+                  className='p-4 max-sm:p-2 my-3 border border-gray/30 rounded-md bg-white'
                   key={post.id}
                 >
                   <div className='flex justify-between items-center py-1'>
                     <span className='text-sm text-gray-500 font-semibold'>
                       {post.User.name} {post.User.lastname}
                     </span>
-                    <span className='text-gray-500 text-sm'>
+                    <span className='text-gray-500 text-sm max-sm:text-xs'>
                       {new Date(post.createdAt).toDateString()}
                     </span>
                   </div>
                   <Link
                     href={`/post/${post.id}`}
-                    className='font-extrabold text-4xl max-sm:text-xl hover:text-primary/90 transition-colors'
+                    className='font-extrabold text-4xl max-sm:text-2xl hover:text-primary/90 transition-colors'
                   >
                     {post.title}
                   </Link>
@@ -61,16 +61,11 @@ export default function Home() {
                         <Tag label={t} key={t} />
                       ))}
                     </div>
-                    <div>
+                    <div className="flex items-center">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button
-                              size='lg'
-                              className='bg-transparent text-black hover:bg-gray-50/10 hover:scale-125 transition-transform'
-                            >
-                              <Bookmark size={24} />
-                            </Button>
+                            <Bookmark />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Save Post</p>
