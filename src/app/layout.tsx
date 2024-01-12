@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/ui/navigation"
 import Providers from "@/components/providers"
+import { Toaster } from "@/components/ui/toaster"
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
+          <Toaster />
         </Providers>
       </body>
     </html>

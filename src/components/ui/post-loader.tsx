@@ -1,4 +1,4 @@
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "./skeleton"
 
 const PostLoader = () => {
   return (
@@ -19,12 +19,13 @@ const PostLoader = () => {
             <Skeleton className='w-[90px] h-[30px] rounded-md' key={i} />
           ))}
         </div>
-        <div className='flex items-end'>
+        <div className='flex items-end gap-2'>
+          <Skeleton className='w-[30px] h-[30px]' />
           <Skeleton className='w-[30px] h-[30px]' />
         </div>
       </div>
     </article>
-  );
-};
+  )
+}
 
-export default PostLoader;
+export default PostLoader
