@@ -37,7 +37,7 @@ export default function Home() {
             <div>
               {postData.data.map((post) => (
                 <article
-                  className='p-4 max-sm:p-2 my-3 border border-gray/30 rounded-md bg-white'
+                  className='p-4 max-sm:p-2 my-3 border border-gray/30 rounded bg-white'
                   key={post.id}
                 >
                   <div className='flex justify-between items-center py-1'>
@@ -61,11 +61,13 @@ export default function Home() {
                         <Tag label={t} key={t} />
                       ))}
                     </div>
-                    <div className="flex items-center">
+                    <div className='flex items-center'>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Bookmark />
+                            <button className='hover:scale-125 transition-transform'>
+                              <Bookmark />
+                            </button>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Save Post</p>

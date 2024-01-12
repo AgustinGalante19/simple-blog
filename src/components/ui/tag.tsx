@@ -17,7 +17,7 @@ const COLORS: any = {
 
 function Tag({ handleClickRemove, haveRemove, label }: Props) {
   return (
-    <div className='flex h-8 items-center border text-sm gap-2 max-sm:px-2 px-4 rounded-md bg-slate-50/90'>
+    <div className='flex h-8 items-center border text-sm gap-2 max-sm:px-2 px-4 rounded'>
       <Image
         src={COLORS[label].icon}
         alt={`${COLORS[label].displayName}`}
