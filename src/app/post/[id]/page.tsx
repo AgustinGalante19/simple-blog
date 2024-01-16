@@ -41,7 +41,7 @@ function Post() {
         })
         .finally(() => setIsLoading(false))
     }
-  }, [])
+  }, [id])
 
   const sanitizedContent = DOMPurify.sanitize(
     post?.content ?? "<p>no content :(</p>",
