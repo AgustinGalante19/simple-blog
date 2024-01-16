@@ -1,16 +1,11 @@
 import useCases from "@/api/useCases"
 import MappedPosts from "@/types/MappedPosts"
 import PostWithUser from "@/types/PostWithUser"
+import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
-import useSWR from "swr"
 
-export default function usePosts() {
-  const fetcher = (url: string) => fetch(url).then((r) => r.json())
-  const {
-    data: postData,
-    error,
-    isLoading,
-  } = useSWR<ApiResponse<PostWithUser>>("/api/post", fetcher)
+export default function usePosts(posts: PostWithUser[]) {
+  const { data } = useSession()
 
   const [mappedPosts, setMappedPosts] = useState<MappedPosts[] | undefined>([])
 
@@ -23,24 +18,23 @@ export default function usePosts() {
 
   useEffect(() => {
     const checkSaved = async () => {
-      const savedPosts = await useCases.posts.saved()
-      const result = postData?.data.map((post) => {
-        const isSaved = savedPosts.data.data.find((p) => p.postId === post.id)
-        return {
-          ...post,
-          isSaved: Boolean(isSaved),
-        }
-      })
-      console.log(result)
-      setMappedPosts(result)
+      if (data && data.user && data.user.id) {
+        const savedPosts = await useCases.posts.saved(data.user.id)
+        const result = posts.map((post) => {
+          const isSaved = savedPosts.data.data.find((p) => p.postId === post.id)
+          return {
+            ...post,
+            isSaved: Boolean(isSaved),
+          }
+        })
+        setMappedPosts(result)
+      }
     }
     checkSaved()
-  }, [postData])
+  }, [data, posts])
 
   return {
     mappedPosts,
-    isLoading,
-    error,
     updatePostsList,
     changeLoadingStatus,
     isSavePostLoading,
