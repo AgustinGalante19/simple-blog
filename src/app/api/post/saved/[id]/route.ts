@@ -16,6 +16,7 @@ export async function GET(
     },
     include: {
       post: true,
+      user: true,
     },
   })
 
