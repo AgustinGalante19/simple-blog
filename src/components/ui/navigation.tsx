@@ -85,7 +85,7 @@ function Navigation() {
         {status === "authenticated" && (
           <li>
             <Link
-              href={`/profile/@${data?.user?.username}`}
+              href={`#`}
               className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
                 pathname.includes("/profile")
                   ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
