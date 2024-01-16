@@ -5,19 +5,26 @@ import PostLoader from "@/components/ui/post-loader"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import PostItem from "@/components/post-item"
 import usePosts from "@/hooks/usePosts"
+import PostWithUser from "@/types/PostWithUser"
+import useSWR from "swr"
 
 export default function Home() {
+  const fetcher = (url: string) => fetch(url).then((r) => r.json())
   const {
-    mappedPosts,
+    data: postData,
     error,
     isLoading,
+  } = useSWR<ApiResponse<PostWithUser>>("/api/post", fetcher)
+
+  const {
+    mappedPosts,
     updatePostsList,
     changeLoadingStatus,
     isSavePostLoading,
-  } = usePosts()
+  } = usePosts(postData?.data || [])
 
   return (
-    <div className='flex max-md:w-full justify-center max-sm:p-0 max-sm:m-0'>
+    <main className='flex max-md:w-full justify-center max-sm:p-0 max-sm:m-0'>
       <ScrollArea className='w-[700px] max-lg:w-full border-x border-gray-400/30 h-screen px-4 py-4'>
         <section>
           {isLoading ? (
@@ -47,6 +54,6 @@ export default function Home() {
           )}
         </section>
       </ScrollArea>
-    </div>
+    </main>
   )
 }
