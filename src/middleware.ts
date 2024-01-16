@@ -1,11 +1,11 @@
-import { withAuth } from 'next-auth/middleware';
+import { withAuth } from "next-auth/middleware"
 
 export default withAuth({
   pages: {
-    newUser: '/',
-    signIn: '/auth/login',
-    error: '/error',
+    newUser: "/",
+    signIn: "/auth/login",
+    error: "/error",
   },
-});
+})
 
-export const config = { matcher: ['/profile/:id', '/orders'] };
+export const config = { matcher: ["/profile/:id*", "/saved/:id*"] }
