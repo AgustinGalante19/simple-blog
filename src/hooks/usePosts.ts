@@ -4,8 +4,8 @@ import PostWithUser from "@/types/PostWithUser"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
-export default function usePosts(posts: PostWithUser[]) {
-  const { data } = useSession()
+export default function usePosts(posts: PostWithUser[] | undefined) {
+  const { data, status } = useSession()
 
   const [mappedPosts, setMappedPosts] = useState<MappedPosts[] | undefined>([])
 
@@ -17,21 +17,33 @@ export default function usePosts(posts: PostWithUser[]) {
     setIsSavePostLoading(newState)
 
   useEffect(() => {
-    const checkSaved = async () => {
-      if (data && data.user && data.user.id) {
-        const savedPosts = await useCases.posts.saved(data.user.id)
-        const result = posts.map((post) => {
-          const isSaved = savedPosts.data.data.find((p) => p.postId === post.id)
-          return {
-            ...post,
-            isSaved: Boolean(isSaved),
-          }
-        })
-        setMappedPosts(result)
+    if (status === "authenticated") {
+      const checkSaved = async () => {
+        if (data && data.user && data.user.id) {
+          const savedPosts = await useCases.posts.saved(data.user.id)
+          const result = posts?.map((post) => {
+            const isSaved = savedPosts.data.data.find(
+              (p) => p.postId === post.id
+            )
+            return {
+              ...post,
+              isSaved: Boolean(isSaved),
+            }
+          })
+          setMappedPosts(result)
+        }
       }
+      checkSaved()
+    } else {
+      const result = posts?.map((post) => {
+        return {
+          ...post,
+          isSaved: false,
+        }
+      })
+      setMappedPosts(result)
     }
-    checkSaved()
-  }, [data, posts])
+  }, [data, posts, status])
 
   return {
     mappedPosts,

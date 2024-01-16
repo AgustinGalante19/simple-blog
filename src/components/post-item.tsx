@@ -15,7 +15,7 @@ import MappedPosts from "@/types/MappedPosts"
 import { useSession } from "next-auth/react"
 import useCases from "@/api/useCases"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 function PostItem({
   post,
@@ -35,6 +35,7 @@ function PostItem({
   const { data, status } = useSession()
 
   const pathname = usePathname()
+  const { push } = useRouter()
 
   const handleSavePost = (post: MappedPosts) => {
     const userId = data?.user?.id
@@ -101,6 +102,8 @@ function PostItem({
           })
           .finally(() => changeLoadingStatus(false))
       }
+    } else {
+      push("/auth/login")
     }
   }
 
