@@ -15,6 +15,7 @@ import MappedPosts from "@/types/MappedPosts"
 import { useSession } from "next-auth/react"
 import useCases from "@/api/useCases"
 import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 function PostItem({
   post,
@@ -33,6 +34,8 @@ function PostItem({
 
   const { data, status } = useSession()
 
+  const pathname = usePathname()
+
   const handleSavePost = (post: MappedPosts) => {
     const userId = data?.user?.id
     if (userId && status === "authenticated") {
@@ -45,15 +48,20 @@ function PostItem({
               title: "👍 Success",
               description: "✅ Post unsaved successfully!",
             })
-            const newPosts = posts.map((p) => {
-              if (p.id === post.id) {
-                return {
-                  ...p,
-                  isSaved: !p.isSaved,
+            let newPosts: MappedPosts[] = []
+            if (pathname === "/") {
+              newPosts = posts.map((p) => {
+                if (p.id === post.id) {
+                  return {
+                    ...p,
+                    isSaved: !p.isSaved,
+                  }
                 }
-              }
-              return p
-            })
+                return p
+              })
+            } else {
+              newPosts = posts.filter((e) => e.id !== post.id)
+            }
             updatePosts(newPosts)
           })
           .catch(() => {
