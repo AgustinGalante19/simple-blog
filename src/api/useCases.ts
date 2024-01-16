@@ -1,7 +1,7 @@
 import { z } from "zod"
 import api from "."
 import fullUserSchema from "../lib/validations/fullUserSchema"
-import { Post, SavedPost } from "@prisma/client"
+import { Post, SavedPost, User } from "@prisma/client"
 
 export interface PostIdResponse extends Post {
   User: {
@@ -9,6 +9,11 @@ export interface PostIdResponse extends Post {
     name: string
     lastname: string
   }
+}
+
+interface SavedPostWithUserAndPost extends SavedPost {
+  user: User
+  post: Post
 }
 
 const useCases = {
@@ -31,7 +36,8 @@ const useCases = {
       }
     ) => api.post("/post/create", { data, userData }),
     getOne: (id: string) => api.get<ApiResponse<PostIdResponse>>(`/post/${id}`),
-    saved: () => api.get<ApiResponse<SavedPost>>("/post/saved"),
+    saved: (id: string) =>
+      api.get<ApiResponse<SavedPostWithUserAndPost>>(`/post/saved/${id}`),
     savePost: (userId: string, postId: string) =>
       api.post<ApiResponse<boolean>>("/post/saved", {
         userId,
