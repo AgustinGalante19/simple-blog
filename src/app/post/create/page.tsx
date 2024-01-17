@@ -61,14 +61,22 @@ function CreatePost() {
     if (session.data) {
       let headerImageUrl = ""
       if (file) {
-        const formData = new FormData()
-        formData.append("file", file)
-        const uploadImage = await fetch("/api/post/create/image", {
-          method: "POST",
-          body: formData,
-        })
-        const response = await uploadImage.json()
-        headerImageUrl = response.data[0]
+        try {
+          const formData = new FormData()
+          formData.append("file", file)
+          const uploadImage = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/post/create/image`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          )
+          const response = await uploadImage.json()
+          headerImageUrl = response.data[0]
+        } catch (err) {
+          console.log("error al subir imagen", err)
+          headerImageUrl = ""
+        }
       }
 
       useCases.posts
@@ -110,6 +118,7 @@ function CreatePost() {
                 id='fileInput'
                 type='file'
                 className='hidden'
+                accept='image/png, image/jpeg, image/webp, image/jpg'
                 onChange={async (e) => {
                   if (e.target.files) {
                     const currentFile = e.target.files[0]
