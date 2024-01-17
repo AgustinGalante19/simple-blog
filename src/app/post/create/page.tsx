@@ -23,7 +23,7 @@ import TextEditor from "@/components/ui/text-editor"
 import { TAGS } from "@/lib/TAGS"
 import newPostSchema from "@/lib/validations/newPostSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, Upload } from "lucide-react"
+import { ArrowLeft, Loader2, Upload } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -45,7 +45,7 @@ function CreatePost() {
   const [file, setFile] = useState<File>()
   const [image, setImage] = useState("/img-placeholder.png")
 
-  const { push } = useRouter()
+  const { push, back } = useRouter()
 
   const form = useForm<z.infer<typeof newPostSchema>>({
     resolver: zodResolver(newPostSchema),
@@ -104,10 +104,18 @@ function CreatePost() {
   }
 
   return (
-    <div className='flex flex-col pt-16 max-sm:pt-0 items-center border-l border-gray-400/30 w-[700px] min-h-screen bg-white'>
+    <div className='flex flex-col max-sm:pt-0 items-center border-l border-gray-400/30 w-[700px] min-h-screen bg-white'>
       <div className='max-lg:w-full max-sm:h-full p-8 rounded-sm flex flex-col max-sm:justify-center'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitNewPost)}>
+            <button
+              onClick={() => back()}
+              className='bg-secondary text-primary py-1 px-2 text-sm rounded-md flex items-center justify-center gap-1 mb-2'
+              type='button'
+            >
+              <ArrowLeft size={18} />
+              Back
+            </button>
             <h2 className='text-2xl font-bold  text-primary'>Create Post</h2>
             <div className='my-3 space-y-2'>
               <span className='text-sm font-medium'>
