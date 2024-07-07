@@ -1,5 +1,6 @@
-"use client";
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -7,17 +8,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { AlertCircle, Eye, EyeOff, Loader2, User } from "lucide-react"
+import { signIn } from "next-auth/react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import z from "zod"
+import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
   username: z
@@ -32,7 +33,7 @@ const formSchema = z.object({
       message: "The username must have at least 8 characters",
     })
     .max(80),
-});
+})
 
 function Login() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,25 +42,26 @@ function Login() {
       username: "",
       password: "",
     },
-  });
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
-  const { push } = useRouter();
+  const [showPassword, setShowPassword] = useState(false)
+  const { push } = useRouter()
 
-  const [isWorking, setIsWorking] = useState(false);
+  const [isWorking, setIsWorking] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   function onSubmitLogin(values: z.infer<typeof formSchema>) {
-    setIsWorking(true);
+    setIsWorking(true)
     signIn("credentials", {
       ...values,
       redirect: false,
     })
       .then((res) => {
         if (res?.ok) {
-          push("/");
+          push("/")
         }
       })
-      .finally(() => setIsWorking(false));
+      .finally(() => setIsWorking(false))
   }
 
   return (
@@ -147,11 +149,30 @@ function Login() {
                   size={18}
                 />
               </Button>
+              <div className='my-2'>
+                <button
+                  type='button'
+                  className='text-primary flex items-center gap-1'
+                  onClick={() => setIsExpanded(!isExpanded)}
+                >
+                  <AlertCircle size={15} /> Demo user credentials
+                </button>
+                {isExpanded && (
+                  <div className='text-sm space-y-1 text-gray-600'>
+                    <div className='flex items-center'>
+                      <span>Username: TestUser</span>
+                    </div>
+                    <div>
+                      <span>Password: testuser123</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </form>
         </Form>
       </div>
     </div>
-  );
+  )
 }
-export default Login;
+export default Login
