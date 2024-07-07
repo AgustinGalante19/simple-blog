@@ -57,7 +57,6 @@ function Navigation() {
         </div>
       </aside>
     )
-
   return (
     <aside className='h-screen flex flex-col py-16 px-2 justify-between'>
       <ul className='space-y-3 flex flex-col'>
@@ -85,17 +84,23 @@ function Navigation() {
         {status === "authenticated" && (
           <li>
             <Link
-              href={`#`}
+              href={`/profile/${data.user?.username}`}
               className={`py-2 px-4 max-sm:px-0 w-full text-xl hover:bg-primary/20 transition-colors flex items-center justify-start max-sm:justify-center rounded-md ${cn(
-                pathname.includes("/profile")
-                  ? "font-extrabold bg-primary hover:bg-primary/60  text-white"
+                pathname.startsWith("/profile")
+                  ? "font-extrabold bg-primary hover:bg-primary/60 text-white"
                   : "font-bold"
               )}`}
             >
               <User />
               <span className='ml-2 max-sm:hidden flex flex-col'>
                 {data?.user?.name}
-                <span className='text-xs text-gray-500'>
+                <span
+                  className={`text-xs ${cn(
+                    pathname.startsWith("/profile")
+                      ? "text-white"
+                      : "text-gray-500"
+                  )}`}
+                >
                   @{data?.user?.username}
                 </span>
               </span>
