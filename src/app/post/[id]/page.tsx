@@ -8,6 +8,7 @@ import Image from "next/image"
 import PostDeailtsLoader from "@/components/ui/post-detail-loader"
 import { AxiosError } from "axios"
 import { ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 function Post() {
   const { id } = useParams()
@@ -72,13 +73,16 @@ function Post() {
   ) : (
     post && (
       <article className='max-md:mx-0 max-md:w-full w-[700px] bg-white p-16'>
-        <button
+        <Button
+          variant='ghost'
+          size='sm'
+          className='my-2'
           onClick={() => router.back()}
-          className='bg-secondary text-primary py-1 px-2 text-sm rounded-md flex items-center justify-center gap-1'
+          //className='bg-secondary text-primary py-1 px-2 text-sm rounded-md flex items-center justify-center gap-1'
         >
           <ArrowLeft size={18} />
           Back
-        </button>
+        </Button>
         <div className='max-w-3xl mx-auto'>
           {post.headerImage && post.headerImage !== "" && (
             <div className='relative'>
