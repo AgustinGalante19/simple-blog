@@ -23,8 +23,8 @@ export default function Home() {
     isSavePostLoading,
   } = usePosts(postData?.data)
   return (
-    <main className='flex max-md:w-full justify-center max-sm:p-0 max-sm:m-0'>
-      <ScrollArea className='w-[700px] max-lg:w-full border-x border-gray-400/30 h-screen px-4 py-4'>
+    <main className='flex max-md:w-full justify-center max-sm:p-0 max-sm:m-0 relative z-10'>
+      <ScrollArea className='w-[700px] max-lg:w-full max-sm:border-none border-x border-gray-400/30 h-screen px-4 py-4'>
         <section>
           {isLoading ? (
             Array.from({ length: 3 }).map((_, i) => <PostLoader key={i} />)
