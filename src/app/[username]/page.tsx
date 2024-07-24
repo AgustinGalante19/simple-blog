@@ -74,7 +74,7 @@ function UserProfile() {
             </>
           ) : (
             <>
-              <ScrollArea className='w-[700px] max-lg:w-full border-x border-gray-400/30 h-screen px-4 py-4'>
+              <ScrollArea className='w-[700px] max-lg:w-full border-x max-sm:border-none border-gray-400/30 h-screen px-4 py-4'>
                 <div className='flex flex-col space-y-2'>
                   <span className='font-extrabold  text-xl'>
                     {userData.user?.name + " " + userData.user?.lastname}

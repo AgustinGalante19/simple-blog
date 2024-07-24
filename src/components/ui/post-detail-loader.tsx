@@ -2,7 +2,7 @@ import { Skeleton } from "./skeleton"
 
 const PostDeailtsLoader = () => {
   return (
-    <article className='w-[700px] max-md:mx-0 max-md:w-full bg-white p-16'>
+    <article className='w-[700px] max-md:mx-0 max-md:w-full bg-white max-sm:p-4 p-16'>
       <div className='mx-auto'>
         <Skeleton className='h-[250px] mx-auto' />
         <div className='py-2 flex items-center justify-between mb-4'>
